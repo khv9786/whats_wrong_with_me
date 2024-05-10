@@ -8,7 +8,7 @@ spring:
   driver-class-name: com.mysql.cj.jdbc.Driver
   url: jdbc:mysql://localhost:3308/docker_root?
   username: root
-  password : !db1234
+  password : "!db1234"
  jpa:
   properties:
     hibernate:
