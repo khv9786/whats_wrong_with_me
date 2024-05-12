@@ -2,7 +2,11 @@ package com.als.webIde.service;
 
 import com.github.dockerjava.api.DockerClient;
 import com.github.dockerjava.api.command.CreateContainerResponse;
+import com.github.dockerjava.api.model.Container;
 import com.github.dockerjava.api.model.HostConfig;
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -38,6 +42,24 @@ public class DockerServiceImpl implements DockerService {
         } catch (Exception e) {
             log.error("컨테이너 종료에 실패했습니다.", e);
         }
+    }
+
+    @Override
+    public String findContainerByUserId(String userId) {
+        List<Container> containers = dockerClient.listContainersCmd()
+                .withLabelFilter(Collections.singletonMap("userId", userId))
+                .exec();
+        return containers.isEmpty() ? null : containers.get(0).getId();
+    }
+
+    @Override
+    public List<String> listUserContainers(String userId) {
+        return dockerClient.listContainersCmd()
+                .withLabelFilter(Collections.singletonMap("userId", userId))
+                .exec()
+                .stream()
+                .map(Container::getId)
+                .collect(Collectors.toList());
     }
 
     @Override
