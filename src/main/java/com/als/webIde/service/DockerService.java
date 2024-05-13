@@ -6,7 +6,7 @@ public interface DockerService {
     /**
      * 유저에게 도커 컨테이너 생성
      * @param userId
-     * @return 컨테이너 ID
+     * @return ContainerId
      */
     String createAndStartContainer(String userId);
 
@@ -20,4 +20,5 @@ public interface DockerService {
     void test();
 
     String executeCommand(String containerId, String command);
+
 }

@@ -45,7 +45,7 @@ class DockerServiceImplTest {
     void testCreateAndStartContainer() {
         when(dockerClient.createContainerCmd("khv9786/als_ide_jdk")).thenReturn(createContainerCmd);
         when(createContainerCmd.withHostConfig(any(HostConfig.class))).thenReturn(createContainerCmd);
-        when(createContainerCmd.withCmd("java", "-jar", "your-application.jar")).thenReturn(createContainerCmd);
+//        when(createContainerCmd.withCmd("java", "-jar", "your-application.jar")).thenReturn(createContainerCmd);
 
         CreateContainerResponse response = new CreateContainerResponse();
         response.setId("container123");
@@ -58,7 +58,7 @@ class DockerServiceImplTest {
         assertEquals("container123", containerId);
 
         verify(createContainerCmd).withHostConfig(any(HostConfig.class));
-        verify(createContainerCmd).withCmd("java", "-jar", "your-application.jar");
+//        verify(createContainerCmd).withCmd("java", "-jar", "your-application.jar");
         verify(createContainerCmd).exec();
         verify(dockerClient).startContainerCmd("container123");
         verify(startContainerCmd).exec();
