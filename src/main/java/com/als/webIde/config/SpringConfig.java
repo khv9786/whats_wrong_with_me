@@ -2,6 +2,7 @@ package com.als.webIde.config;
 
 import com.als.webIde.service.CustomUserDetailsService;
 import com.als.webIde.service.JwtUtil;
+import com.als.webIde.service.TokenProvider;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import jdk.jfr.Frequency;
@@ -24,7 +25,7 @@ import static org.springframework.security.web.util.matcher.AntPathRequestMatche
 @RequiredArgsConstructor
 public class SpringConfig {
     private final CustomUserDetailsService customUserDetailsService;
-    private final JwtUtil jwtUtil;
+    private final TokenProvider jwtUtil;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
