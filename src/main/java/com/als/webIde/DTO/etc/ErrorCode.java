@@ -10,6 +10,7 @@ public enum ErrorCode {
     UNSUPPORTED_TOKEN(1004, "변조된 토큰입니다."),
     ACCESS_DENIED(1005, "권한이 없습니다.");
 
+
     ErrorCode (int status, String message) {
         this.code = status;
         this.message = message;
@@ -17,4 +18,5 @@ public enum ErrorCode {
 
     private int code;
     private String message;
+
 }

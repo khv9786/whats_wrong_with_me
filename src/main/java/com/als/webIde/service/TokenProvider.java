@@ -86,7 +86,6 @@ public class TokenProvider {
     }
 
     public boolean validateToken(String authToken) throws ExpiredJwtException {
-
         Jwts.parser().setSigningKey(secretKey).build().parseClaimsJws(authToken);
         return true;
 
