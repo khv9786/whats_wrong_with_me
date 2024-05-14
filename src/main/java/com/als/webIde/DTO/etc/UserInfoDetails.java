@@ -13,4 +13,3 @@ public class UserInfoDetails {
     private String userPassword;
     private String userNickName;
     private String userThema;
-}

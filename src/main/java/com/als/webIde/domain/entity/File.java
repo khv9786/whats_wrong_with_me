@@ -2,15 +2,16 @@ package com.als.webIde.domain.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
-import lombok.Setter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
+@Getter
+@Setter
+@NoArgsConstructor
 @Table(name = "file")
-@Getter @Setter @NoArgsConstructor
 public class File {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "file_pk")
     private Long filePk;
 
@@ -20,7 +21,7 @@ public class File {
     @Column(name = "suffix_file", nullable = false)
     private String suffixFile;
 
-    @Column(name = "content_cd", nullable = false)
+    @Column(name = "content_cd")
     private String contentCd;
 
     @Column(name = "file_title", nullable = false)
@@ -29,7 +30,17 @@ public class File {
     @Column(name = "path", nullable = false)
     private String path;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "container_pk", insertable = false, updatable = false)
-    private Container container;
+    @ManyToOne
+    @JoinColumn(name = "user_pk", insertable = false, updatable = false)
+    private Member member;
+
+    //    @ManyToOne
+//    @JoinColumn(name = "container_pk", insertable = false, updatable = false)
+//    private Container container;
+
+    public void codeSave(String fileTitle, String contentCd) {
+        this.fileTitle = fileTitle;
+        this.contentCd = contentCd;
+    }
+
 }
