@@ -11,18 +11,6 @@ COPY . .
 RUN mkdir -p /root/.gradle && \
     echo "systemProp.http.proxyHost=krmp-proxy.9rum.cc\nsystemProp.http.proxyPort=3128\nsystemProp.https.proxyHost=krmp-proxy.9rum.cc\nsystemProp.https.proxyPort=3128" > /root/.gradle/gradle.properties
 
-# gradlew 스크립트 실행 가능하게 변경
-RUN chmod +x gradlew
-
-# Gradle을 사용하여 프로젝트 빌드
-RUN ./gradlew build
-
-# 빌드 결과 확인을 위해 /app/build/libs/ 디렉토리 내용 출력
-RUN ls /app/build/libs/
-
-# openjdk:17-slim을 기반 이미지로 사용하는 새로운 스테이지
-FROM openjdk:17-slim
-
 # 빌드 스테이지에서 생성된 JAR 파일을 가져옴
 ARG JAR_FILE=build/libs/webIde-0.0.1-SNAPSHOT.jar
 COPY --from=build /app/${JAR_FILE} webIde.jar
