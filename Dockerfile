@@ -11,15 +11,8 @@ COPY . .
 RUN mkdir -p /root/.gradle
 RUN echo "systemProp.http.proxyHost=krmp-proxy.9rum.cc\nsystemProp.http.proxyPort=3128\nsystemProp.https.proxyHost=krmp-proxy.9rum.cc\nsystemProp.https.proxyPort=3128" > /root/.gradle/gradle.properties
 RUN chmod +x gradlew
-
-# 빌드 스테이지에서 생성된 JAR 파일을 가져옴
-ARG JAR_FILE=build/libs/webIde-0.0.1-SNAPSHOT.jar
-COPY --from=build /app/${JAR_FILE} webIde.jar
-
-# Java 애플리케이션 실행을 위한 ENTRYPOINT 설정
-ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","/webIde.jar"]
+RUN ./gradlew clean build
 
 # 애플리케이션 접근을 위한 포트 8080 개방
 EXPOSE 8080
-
  CMD ["아 드디어 됐나요?"]
