@@ -1,0 +1,13 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  #DB 권한 용
+  name: mysql-init-job
+spec:
+  template:
+    spec:
+      containers:
+        - name: mysql-init
+          image: mysql:5.7
+          command: ["mysql", "-h", "mysql", "-u", "root", "-p!db1234", "-e", "GRANT ALL PRIVILEGES ON als_ide_db.* TO 'root'@'%'; FLUSH PRIVILEGES;"]
+      restartPolicy: OnFailure
