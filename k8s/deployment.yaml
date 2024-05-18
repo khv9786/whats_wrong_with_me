@@ -11,10 +11,21 @@ spec:
       labels:
         app: backend
     spec:
+      # DB가 연결전에 끊기는거 방지.
+      initContainers:
+        - name: wait-for-mysql
+          image: busybox
+          command: [ 'sh', '-c', 'until nc -z -v -w30 mysql 3306; do echo waiting for mysql; sleep 1; done' ]
       containers:
         - name: backend
-          image: krmp-d2hub-idock.9rum.cc/dev-test/repo_64cdd53b062f:latest
-
+          image: khv9786/als_ide_v2
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "0.5"
+            limits:
+              memory: "512Mi"
+              cpu: "1"
 ---
 apiVersion: v1
 kind: Service
@@ -26,3 +37,46 @@ spec:
   ports:
     - port: 8080
       targetPort: 8080
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mysql
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mysql
+  template:
+    metadata:
+      labels:
+        app: mysql
+    spec:
+      containers:
+        - name: mysql
+          image: mysql
+          ports:
+            - containerPort: 3306 # Mysql 포트
+          env:
+            - name: MYSQL_DATABASE
+              value: als_ide_db
+            - name: MYSQL_USER
+              value: user
+            - name: MYSQL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-secrets
+                  key: mysql-password
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-secrets
+                  key: mysql-root-password
+          volumeMounts:
+            - name: mysql-data
+              mountPath: /var/lib/mysql
+      volumes:
+        - name: mysql-data
+          emptyDir: {}
+---

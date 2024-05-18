@@ -1,54 +1,13 @@
-#apiVersion: apps/v1
-#kind: Deployment
-#metadata:
-#  name: backend
-#  namespace: default
-#spec:
-#  replicas: 1
-#  selector:
-#    matchLabels:
-#      app: backend
-#  template:
-#    metadata:
-#      labels:
-#        app: backend
-#    spec:
-#      containers:
-#        - name: backend
-#          image: backend-image
-#          ports:
-#            - containerPort: 8080
-#---
-#apiVersion: v1
-#kind: Service
-#metadata:
-#  name: backend
-#  namespace: default
-#spec:
-#  ports:
-#    - port: 8080
-#      targetPort: 8080
-#  selector:
-#    app: backend
-#---
-#apiVersion: networking.k8s.io/v1
-#kind: Ingress
-#metadata:
-#  annotations:
-#    nginx.ingress.kubernetes.io/ssl-redirect: "false"
-#  labels:
-#    app.kubernetes.io/managed-by: kargocd
-#  name: krampoline
-#  namespace: default
-#spec:
-#  rules:
-#    - host: example.com  # 적절한 호스트 이름으로 변경
-#      http:
-#        paths:
-#          - path: /
-#            pathType: Prefix
-#            backend:
-#              service:
-#                name: backend
-#                port:
-#                  number: 8080
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend
+  namespace: default
+spec:
+  type: NodePort
+  ports:
+    - port: 80
+      targetPort: 8080
+      nodePort: 30036
+  selector:
+    app: backend

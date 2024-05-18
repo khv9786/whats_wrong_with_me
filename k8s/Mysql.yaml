@@ -5,7 +5,7 @@ metadata:
   namespace: default
 spec:
   ports:
-    - port: 3306
-      targetPort: 3306
+    - port: 3308
+      targetPort: 3306 # Mysql 포트
   selector:
     app: mysql
